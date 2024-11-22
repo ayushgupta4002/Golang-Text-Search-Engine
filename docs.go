@@ -35,13 +35,11 @@ func loadDocs(dumpPath string) ([]document, error) {
 	dumpData := struct {
 		Documents []document `xml:"doc"`
 	}{}
-	fmt.Println("Decoding XML2")
 
 	err = xmlLoader.Decode(&dumpData)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("Decoding XML3")
 
 	docs := dumpData.Documents
 	for i := range docs {
