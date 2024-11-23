@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 type index map[string][]int
@@ -10,8 +9,7 @@ type index map[string][]int
 func (idx index) add(docs []document) {
 	for _, doc := range docs {
 		//change to a tokenizer function later
-		for _, word := range strings.Fields(doc.Text) {
-			word = strings.ToLower(word)
+		for _, word := range tokenize(doc.Text) {
 			ids := idx[word]
 			if ids != nil && ids[len(ids)-1] == doc.ID {
 				continue
@@ -44,8 +42,8 @@ func intersection(a []int, b []int) []int {
 
 func (idx index) search(query string) []int {
 	var result []int
-	for _, word := range strings.Fields(query) {
-		word = strings.ToLower(word)
+	fmt.Println("query:", tokenize(query))
+	for _, word := range tokenize(query) {
 		fmt.Println("word:", word)
 		ids := idx[word]
 		if ids == nil {

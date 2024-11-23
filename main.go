@@ -10,7 +10,7 @@ import (
 func main() {
 	var dumpPath, query string
 	flag.StringVar(&dumpPath, "p", "enwiki-latest-abstract1.xml.gz", "wiki abstract dump path")
-	flag.StringVar(&query, "q", "what are best cat breeds", "search query")
+	flag.StringVar(&query, "q", "what is life", "search query")
 	flag.Parse()
 	fmt.Println("dumpPath:", dumpPath)
 	fmt.Println("query:", query)
@@ -29,10 +29,16 @@ func main() {
 
 	matchIds := idx.search(query)
 	// fmt.Println("Matched IDs:", matchIds)
+	fmt.Printf("\n%-10s | %-40s | %s\n", "Doc ID", "Title", "Snippet")
 
 	for _, id := range matchIds {
+
 		doc := documents[id]
-		log.Printf("%d\t%s\n", id, doc.Text)
+		snippet := doc.Text
+		if len(snippet) > 50 {
+			snippet = snippet[:47] + "..."
+		}
+		fmt.Printf("%-10d | %-40s | %s\n", doc.ID, doc.Title, snippet)
 	}
 
 }
